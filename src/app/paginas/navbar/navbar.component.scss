@@ -1,0 +1,34 @@
+.barraFerramentas {
+    background-color: #5a01cb;
+  }
+  
+  .telaLogin {
+    color: white;
+    font-size: small;
+  }
+  .mat-toolbar,
+  .mat-toolbar h1,
+  .mat-toolbar h2,
+  .mat-toolbar h3,
+  .mat-toolbar h4,
+  .mat-toolbar h5,
+  .mat-toolbar h6 {
+    font: 300 20px/15px Roboto, "Franklin Gothic Medium", sans-serif;
+    letter-spacing: normal;
+    margin: 0;
+  }
+  // .spacer {
+  //   flex: 1 1 auto;
+  // }
+  span {
+    display: block;
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+  .flexSpaceBetween {
+    justify-content: space-between;
+  }
+  

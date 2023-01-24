@@ -1,0 +1,95 @@
+// mat-icon-stepper selected color change
+::ng-deep .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: rgb(252, 252, 252) !important;
+}
+
+//input outline color/ borda do input
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgb(159, 76, 214) !important;
+  // opacity: 1!important;
+}
+
+//mat-input focused color
+::ng-deep
+  .mat-form-field-appearance-outline.mat-focused
+  .mat-form-field-outline-thick {
+  color: #7643b9 !important;
+}
+
+// mat-input error outline color
+::ng-deep
+  .mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+  .mat-form-field-outline-thick {
+  color: black !important;
+  opacity: 0.8 !important;
+}
+
+// mat-input carent color
+::ng-deep .mat-input-element {
+  caret-color: rgb(0, 0, 0) !important;
+}
+
+// mat-input error carent color
+::ng-deep .mat-form-field-invalid .mat-input-element,
+.mat-warn .mat-input-element {
+  caret-color: rgb(3, 3, 3) !important;
+}
+
+// mat-label normal state style
+::ng-deep .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.6) !important;
+  // color: $mainColor!important;
+}
+
+// mat-label focused style
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #7643b9 !important;
+}
+
+// mat-label error style
+::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: red !important;
+}
+
+.fonte {
+  color: #0000008f;
+  font-size: small;
+}
+
+.fonte2 {
+  color: #040207;
+  font-size: xx-small;
+}
+
+.submit-lente {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.submit-line {
+  position: relative;
+  width: 200px;
+}
+
+.submit-line input {
+  width: 100%;
+}
+
+.ag-theme-mycustomtheme {
+  --ag-border-color: #5a01cb80;
+}
+
+.ag-cell-label-container{
+  padding: 25px;
+}
+.ag-header-cell, .ag-header-group-cell {
+    padding-left: 26px;
+    padding-right: var(--ag-cell-horizontal-padding);
+}

@@ -1,0 +1,80 @@
+<app-navbar [titulo]="'Alteração de impostos Estaduais'" [voltar]="true"></app-navbar>
+<div class="container-xxl pr-0 overflow-hidden mt-4 ">
+  <div class="row">
+    <div class="col-12 ">
+      <div class="row">
+        <div class="col-auto">
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 20px;">
+            <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" #simplesNacional disabled>
+            <label class="btn border fonte" for="btnradio1">Simples Nacional
+              <img *ngIf="simplesNacional.checked" src="assets/img/selecionado.png" #imgSel1></label>
+
+            <input type="radio" class="btn-check" name="btnradio1" id="btnradio2" #regimeNormal disabled>
+            <label class="btn border fonte" for="btnradio2">Regime Normal
+              <img *ngIf="regimeNormal.checked" src="assets/img/selecionado.png" #imgSel2></label>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 20px;">
+            <input type="radio" class="btn-check" name="btnradio2" id="btnradio3" checked #Varejo
+              (change)="selecionarChecado(imgSel3, imgSel4)" >
+            <label class="btn  border fonte" for="btnradio3" style="width: 96.81px;;">Varejo
+              <img src="assets/img/selecionado.png" #imgSel3>
+              <!-- <mat-icon style="color: white;">done</mat-icon> -->
+            </label>
+
+            <input type="radio" class="btn-check" name="btnradio2" id="btnradio4" #Atacado
+              (change)="selecionarChecado(imgSel4, imgSel3)" >
+            <label class="btn  border fonte" for="btnradio4" style="width: 96.81px;">Atacado
+              <img class="d-none" src="assets/img/selecionado.png" #imgSel4> </label>
+          </div>
+        </div>
+
+        <div class="col-auto">
+          <input type="checkbox" class="btn-check " id="consumidor-final" checked #consumidorFinal
+            (click)="selecionarChecado(imgSel5, null)">
+          <label class="btn border fonte" for="consumidor-final" style="width: 139.8px;">
+            Consumidor Final
+            <img src="assets/img/selecionado.png" #imgSel5>
+          </label>
+        </div>
+
+        <div class="col-3">
+          <div class=" row">
+            <label for="inputPassword" class="col-auto col-form-label  fonte ">UF de Destino</label>
+            <div class="col-4">
+              <select class="form-select  fonte" aria-label="Default select example">
+                <option selected>BA</option>
+                <option>SP</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="position-relative pr-0 my-2 ">
+      <div class="col-12 ">
+        <div class="submit-line w-100 border p-2 border-cor">
+          <input type="text" class="form-control form-control-sm" (input)="onSearch()" [formControl]="queryField"
+            placeholder="Digite o nome do produto, código de barras ou NCM" />
+
+          <button class="submit-lente" type="submit" (click)="onSearch()">
+            <img src="assets/img/IconPesquisa.png" style="font-size: 17px; margin-top:13px ; margin-right: 10px;">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ag-grid-angular style=" height: 350px; width: 100%;" class="ag-theme-alpine ag-theme-mycustomtheme "
+      [rowData]="produtosFiltrados" [columnDefs]="columnDefs"
+       [pagination]="true" 
+       [singleClickEdit]="true"
+      [frameworkComponents]="frameworkComponents"
+      (gridReady)="onGridReady($event)"
+      (cellValueChanged)="verificarCSTValido($event)"
+      (cellValueChanged)="verificarPrimeiroDigitoCfop($event)">
+    </ag-grid-angular>
+  </div>
+</div>
