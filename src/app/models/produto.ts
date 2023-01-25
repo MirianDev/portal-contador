@@ -6,7 +6,14 @@ export class Produto {
     cfop!:number;
     cstIcms!:number;
     aliqIcms!:number;
-    perecMva!:number;
+    percMva!:number;
     percRedBci!:number;
+    
+    cst!:number;
+    pis!:number;
+    cofins!:number;
+    natreceita!:number;
+    cstipi!:number;
+    aliqipi!:number;
 
 }

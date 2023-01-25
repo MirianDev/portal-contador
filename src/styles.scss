@@ -173,3 +173,8 @@ input.ag-input-field-input,
   height: auto;
   padding: none !important;
 }
+.ag-header-cell-label {
+  text-overflow: clip;
+  overflow: visible;
+  white-space: normal;
+}

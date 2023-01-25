@@ -8,6 +8,6 @@ export class ProdutosService {
 
 constructor(private httpClient:HttpClient) { }
 getAll(){
-  return this.httpClient.get('http://localhost:3003/produtos')
+  return this.httpClient.get('http://localhost:3000/produtos')
 }
 }

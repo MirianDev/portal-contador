@@ -1,8 +1,24 @@
-<app-navbar [titulo]="'Alteração de impostos Estaduais'" [voltar]="true"></app-navbar>
+<app-navbar [titulo]="tituloNavBar" [voltar]="true"></app-navbar>
 <div class="container-xxl pr-0 overflow-hidden mt-4 ">
   <div class="row">
     <div class="col-12 ">
       <div class="row">
+        <div class="col-auto">
+          <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 20px;">
+            <input type="radio" class="btn-check" name="tipoImposto" id="btnradioestadual" checked #estadual
+              (change)="selecionarChecado(imgSel7, imgSel8)" (click)="selecionarTipoImposto(1)">
+            <label class="btn  border fonte" for="btnradioestadual" style="width: 96.81px;;">Estadual
+              <img src="assets/img/selecionado.png" #imgSel7>
+              <!-- <mat-icon style="color: white;">done</mat-icon> -->
+            </label>
+
+            <input type="radio" class="btn-check" name="tipoImposto" id="btnradiofederal" #federal
+              (change)="selecionarChecado(imgSel8, imgSel7)" (click)="selecionarTipoImposto(2)">
+            <label class="btn  border fonte" for="btnradiofederal" style="width: 96.81px;">Federal
+              <img class="d-none" src="assets/img/selecionado.png" #imgSel8> </label>
+          </div>
+        </div>
+
         <div class="col-auto">
           <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 20px;">
             <input type="radio" class="btn-check" name="btnradio1" id="btnradio1" #simplesNacional disabled>
@@ -78,3 +94,5 @@
     </ag-grid-angular>
   </div>
 </div>
+
+

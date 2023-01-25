@@ -9,6 +9,6 @@ export class EmpresasService {
 
 constructor(private httpClient:HttpClient) { }
 getAll(){
-  return this.httpClient.get('http://localhost:3003/empresas')
+  return this.httpClient.get('http://localhost:3000/empresas')
 }
 }
