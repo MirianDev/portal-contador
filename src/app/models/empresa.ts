@@ -4,4 +4,5 @@ cnpj!:string;
 nome!:string;
 grupo!:string;
 regimeTributario!: number; 
+industria!:boolean;
 }

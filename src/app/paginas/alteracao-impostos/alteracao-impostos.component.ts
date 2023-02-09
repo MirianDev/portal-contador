@@ -4,6 +4,8 @@ import { MatTableDataSource } from "@angular/material/table";
 
 import { Router } from "@angular/router";
 import { EmpresasService } from "src/app/core/empresas.service";
+import { LocalStorageService } from "src/app/core/local-storage.service";
+import { Cst } from "src/app/models/cst";
 import { Empresa } from "src/app/models/empresa";
 
 @Component({
@@ -24,13 +26,15 @@ export class AlteracaoImpostosComponent implements OnInit {
     grupo: "",
     nome: "RB Contabilidade",
     regimeTributario: 0,
+    industria:true
   };
 
   @Input() voltar!: false;
 
   constructor(
     private empresasService: EmpresasService,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -42,6 +46,8 @@ export class AlteracaoImpostosComponent implements OnInit {
   }
 
   navegar(empresa: Empresa) {
+    this.localStorageService.setItem('empresaSelecionada', empresa); // a gente tá setando em local storage, mesmo dando f5 os dados persistem
+
     this.router.navigate(
       [
         `alteracaoimpostosEstaduais/${empresa.cnpj
@@ -50,7 +56,7 @@ export class AlteracaoImpostosComponent implements OnInit {
           .replace("/", "")
           .replace("-", "")}`,
       ],
-      { queryParams: { regimeTributario: empresa.regimeTributario } }
+      //{ queryParams: { regimeTributario: empresa.regimeTributario, industria:empresa.industria } }
     );
   }
 
