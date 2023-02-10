@@ -15,8 +15,11 @@ import { ToastrService } from 'ngx-toastr';
 import { BotaoExcluirCellComponent } from 'src/app/botao-excluir-cell/botao-excluir-cell.component';
 import { LocalStorageService } from 'src/app/core/local-storage.service';
 import { ProdutosService } from 'src/app/core/produtos.service';
+import { Operacao } from 'src/app/enuns/operacao.enum';
 import { RegimeTributario } from 'src/app/enuns/regime-tributario.enum';
 import { TipoImposto } from 'src/app/enuns/tipo-imposto.enum';
+import { CstIpi } from 'src/app/models/cst-ipi';
+import { CstPisCofins } from 'src/app/models/cst-PisCofins';
 import { Empresa } from 'src/app/models/empresa';
 import { Produto } from 'src/app/models/produto';
 
@@ -161,6 +164,10 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
+        cellEditor: 'agSelectCellEditor', // transforma em SELECT
+        cellEditorParams: {
+          values: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
+        },
         hide: this.tipoImposto == TipoImposto.Estadual,
         editable: true,
       },
@@ -184,6 +191,22 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
+        cellEditor: 'agTextCellEditor', // transforma em SELECT
+        
+        // cellEditorParams: {
+        //   valueGetter: function (params) {
+        //     return params.data.cofins;
+        //   },
+        //   valueSetter: (params) => {
+        //     var newValInt = params.newValue;
+        //     var valueChanged = params.data.cofins !== newValInt;
+        //     if (valueChanged) {
+        //       params.data.cofins = newValInt; 
+        //       return valueChanged;
+        //     }
+        //   },    
+        // } ,
+
         hide: this.tipoImposto == TipoImposto.Estadual,
         //cellClassRules: { 'bg-light': (params) => this.regimeTributario == RegimeTributario.SimplesNacional },
         editable: (params) => params.data.cst == "02",
@@ -196,7 +219,8 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         maxWidth: 150,
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
-        cellClass: 'text-center',
+        cellClass: 'text-center',       
+        cellEditor: 'agSelectCellEditor', // transforma em SELECT
         hide: this.tipoImposto == TipoImposto.Estadual,
         editable: true
       },
@@ -208,6 +232,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
         cellClass: ['text-center', 'bg-light'],
+        cellEditor: 'agSelectCellEditor', // transforma em SELECT
         hide: this.tipoImposto == TipoImposto.Estadual ||  this.industria == false,
         //editable: true
       },
@@ -219,6 +244,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
         cellClass: ['text-center', 'bg-light'],
+        cellEditor: 'agTextCellEditor', // transforma em SELECT
         hide: this.tipoImposto == TipoImposto.Estadual || this.industria == false
     //    editable: true,
       },
@@ -313,7 +339,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         cellClassRules: { 'bg-light': (params) => this.regimeTributario == RegimeTributario.SimplesNacional },
         hide: this.regimeTributario != RegimeTributario.RegimeNormal || this.tipoImposto == TipoImposto.Federal, 
         valueGetter: function (params) {
-          return params.data.aliqIcms + '%';  // é pq tem 2 condições, ele vê pelo regime tributario
+          return params.data.aliqIcms + '%';  // tem 2 condições, ele vê pelo regime tributario
         },
       },
       {

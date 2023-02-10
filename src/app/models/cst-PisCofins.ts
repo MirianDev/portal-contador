@@ -1,16 +1,15 @@
 import { IncidenciaImposto } from "../enuns/incidencia-imposto.enum";
 import { Operacao } from "../enuns/operacao.enum";
 
-interface ICst {
+interface ICstPisCofins {
     cst: string;
     descricao: string;
     operacao: Operacao;
     incidenciaImposto: IncidenciaImposto;
 }
 
-export abstract class Cst {
-
-    static lista: ICst[] = [
+export abstract class CstPisCofins {
+    static lista: ICstPisCofins[] = [
         {
             
             cst: "01",
