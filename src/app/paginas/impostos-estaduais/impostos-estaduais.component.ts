@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  CellValueChangedEvent, ColDef
+  CellValueChangedEvent, ColDef, ValueFormatterParams
 } from 'ag-grid-community';
 import { ToastrService } from 'ngx-toastr';
 import { BotaoExcluirCellComponent } from 'src/app/botao-excluir-cell/botao-excluir-cell.component';
@@ -33,9 +33,11 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
   private gridApi: any;
   public tipoImposto: number;
   public valorSimples: 53;
-  public industria:boolean;
+  public industria: boolean;
+
   //public check: any;
 
+  arrayCST: Array<string>;
 
   tituloNavBar: string;
   produtosFiltrados: Produto[] = [];
@@ -61,10 +63,13 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
     this.tituloNavBar = "Alteração de impostos Estaduais";
   }
 
-  async ngOnInit() { 
+  async ngOnInit() {
     const empresaSelecionada = this.localStorageService.getItem('empresaSelecionada') as Empresa;
-    
+
     console.log(empresaSelecionada);
+
+    this.arrayCST = CstPisCofins.lista.filter(l => l.operacao == Operacao.Saida).map(l => l.cst);
+
 
     this.regimeTributario = empresaSelecionada.regimeTributario;
     this.industria = empresaSelecionada.industria;
@@ -80,7 +85,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
     // this.route.queryParams.subscribe((params: any) => {
     //   this.regimeTributario = params.regimeTributario;
     //   this.industria = params.industria;
-      
+
     // });
 
     if (this.regimeTributario == RegimeTributario.SimplesNacional)
@@ -156,21 +161,47 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         editable: this.tipoImposto == TipoImposto.Federal,
 
       },
+      // {
+      //   headerName: 'CST pis/cofins', //federal
+      //   field: 'cst',
+      //   width: 100,
+      //   maxWidth: 150,
+      //   minWidth: 10,
+      //   headerClass: 'ag-theme-custom-text-center',
+      //   cellClass: 'text-center',
+      //   cellEditor: 'agSelectCellEditor', // transforma em SELECT
+      //   singleClickEdit : true,
+      //   cellEditorParams: {
+      //     values: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
+      //   }, //as ISelectCellEditorParams,
+      //   cellRenderer: 'genderCellRenderer',
+      //  // refData: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
+
+      //   hide: this.tipoImposto == TipoImposto.Estadual,
+      //   editable: true,
+      //    valueGetter: function (params) {
+      //     return params.data.CstPisCofins;
+      //   },
+      // },
+      /////////////////////
       {
         headerName: 'CST pis/cofins', //federal
         field: 'cst',
         width: 100,
         maxWidth: 150,
         minWidth: 10,
-        headerClass: 'ag-theme-custom-text-center',
-        cellClass: 'text-center',
-        cellEditor: 'agSelectCellEditor', // transforma em SELECT
+        cellEditor: 'agSelectCellEditor',
         cellEditorParams: {
-          values: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
+          values: this.arrayCST,
         },
-        hide: this.tipoImposto == TipoImposto.Estadual,
         editable: true,
+        hide: this.tipoImposto == TipoImposto.Estadual,
+        valueGetter: function (params) {
+               return params.data.CstPisCofins;
+            },
       },
+
+      ////////////
       {
         headerName: 'Aliq Pis', //federal 
         field: 'pis',
@@ -192,7 +223,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
         cellEditor: 'agTextCellEditor', // transforma em SELECT
-        
+
         // cellEditorParams: {
         //   valueGetter: function (params) {
         //     return params.data.cofins;
@@ -219,7 +250,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         maxWidth: 150,
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
-        cellClass: 'text-center',       
+        cellClass: 'text-center',
         cellEditor: 'agSelectCellEditor', // transforma em SELECT
         hide: this.tipoImposto == TipoImposto.Estadual,
         editable: true
@@ -233,7 +264,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         headerClass: 'ag-theme-custom-text-center',
         cellClass: ['text-center', 'bg-light'],
         cellEditor: 'agSelectCellEditor', // transforma em SELECT
-        hide: this.tipoImposto == TipoImposto.Estadual ||  this.industria == false,
+        hide: this.tipoImposto == TipoImposto.Estadual || this.industria == false,
         //editable: true
       },
       {
@@ -246,7 +277,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         cellClass: ['text-center', 'bg-light'],
         cellEditor: 'agTextCellEditor', // transforma em SELECT
         hide: this.tipoImposto == TipoImposto.Estadual || this.industria == false
-    //    editable: true,
+        //    editable: true,
       },
       {
         headerName: 'C.F.O.P',
@@ -326,7 +357,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
           }
           return valueChanged;
         },
-        hide: this.tipoImposto == TipoImposto.Federal , 
+        hide: this.tipoImposto == TipoImposto.Federal,
       },
       {
         headerName: 'Aliq. ICMS',
@@ -337,7 +368,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
         cellClassRules: { 'bg-light': (params) => this.regimeTributario == RegimeTributario.SimplesNacional },
-        hide: this.regimeTributario != RegimeTributario.RegimeNormal || this.tipoImposto == TipoImposto.Federal, 
+        hide: this.regimeTributario != RegimeTributario.RegimeNormal || this.tipoImposto == TipoImposto.Federal,
         valueGetter: function (params) {
           return params.data.aliqIcms + '%';  // tem 2 condições, ele vê pelo regime tributario
         },
@@ -467,7 +498,20 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
 
     this.carregarColunas();
   }
-
+  ////////
+  valor(mappings: Record<string, string>, key: string) {
+    return mappings[key];
+  }
+  lookupKey(mappings: Record<string, string>, name: string) {
+    const keys = Object.keys(mappings);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (mappings[key] === name) {
+        return key;
+      }
+    }
+  }
+  ///////
   // futuramente vai te que criar um metodo para validar os CFOP
   // Caso o regime tributario for igual 1  ele traz o 3 digitos referente ao simples nacional
   private maxLengthCSTIcms = () => (this.regimeTributario == RegimeTributario.SimplesNacional ? 3 : 2);
