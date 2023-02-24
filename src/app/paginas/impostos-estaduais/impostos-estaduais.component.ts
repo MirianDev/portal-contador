@@ -21,6 +21,7 @@ import { TipoImposto } from 'src/app/enuns/tipo-imposto.enum';
 import { CstIpi } from 'src/app/models/cst-ipi';
 import { CstPisCofins } from 'src/app/models/cst-PisCofins';
 import { Empresa } from 'src/app/models/empresa';
+import { NcmIpi } from 'src/app/models/ncm-ipi';
 import { Produto } from 'src/app/models/produto';
 
 @Component({
@@ -38,6 +39,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
   //public check: any;
 
   arrayCST: Array<string>;
+  arrayCstIPI: Array<string>;
 
   tituloNavBar: string;
   produtosFiltrados: Produto[] = [];
@@ -69,7 +71,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
     console.log(empresaSelecionada);
 
     this.arrayCST = CstPisCofins.lista.filter(l => l.operacao == Operacao.Saida).map(l => l.cst);
-
+    this.arrayCstIPI = CstIpi.lista.map(l => l.cst);
 
     this.regimeTributario = empresaSelecionada.regimeTributario;
     this.industria = empresaSelecionada.industria;
@@ -81,12 +83,6 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
       this.produtosFiltrados = res;
 
     });
-
-    // this.route.queryParams.subscribe((params: any) => {
-    //   this.regimeTributario = params.regimeTributario;
-    //   this.industria = params.industria;
-
-    // });
 
     if (this.regimeTributario == RegimeTributario.SimplesNacional)
       this.simplesNacionalInpt.nativeElement.checked = true;
@@ -159,31 +155,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
         editable: this.tipoImposto == TipoImposto.Federal,
-
       },
-      // {
-      //   headerName: 'CST pis/cofins', //federal
-      //   field: 'cst',
-      //   width: 100,
-      //   maxWidth: 150,
-      //   minWidth: 10,
-      //   headerClass: 'ag-theme-custom-text-center',
-      //   cellClass: 'text-center',
-      //   cellEditor: 'agSelectCellEditor', // transforma em SELECT
-      //   singleClickEdit : true,
-      //   cellEditorParams: {
-      //     values: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
-      //   }, //as ISelectCellEditorParams,
-      //   cellRenderer: 'genderCellRenderer',
-      //  // refData: CstPisCofins.lista.filter(l=> l.operacao == Operacao.Saida).map(l => l.cst),
-
-      //   hide: this.tipoImposto == TipoImposto.Estadual,
-      //   editable: true,
-      //    valueGetter: function (params) {
-      //     return params.data.CstPisCofins;
-      //   },
-      // },
-      /////////////////////
       {
         headerName: 'CST pis/cofins', //federal
         field: 'cst',
@@ -196,12 +168,11 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         },
         editable: true,
         hide: this.tipoImposto == TipoImposto.Estadual,
+        singleClickEdit: true,
         valueGetter: function (params) {
-               return params.data.CstPisCofins;
-            },
+          return params.data.cst;
+        },
       },
-
-      ////////////
       {
         headerName: 'Aliq Pis', //federal 
         field: 'pis',
@@ -223,21 +194,6 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
         cellEditor: 'agTextCellEditor', // transforma em SELECT
-
-        // cellEditorParams: {
-        //   valueGetter: function (params) {
-        //     return params.data.cofins;
-        //   },
-        //   valueSetter: (params) => {
-        //     var newValInt = params.newValue;
-        //     var valueChanged = params.data.cofins !== newValInt;
-        //     if (valueChanged) {
-        //       params.data.cofins = newValInt; 
-        //       return valueChanged;
-        //     }
-        //   },    
-        // } ,
-
         hide: this.tipoImposto == TipoImposto.Estadual,
         //cellClassRules: { 'bg-light': (params) => this.regimeTributario == RegimeTributario.SimplesNacional },
         editable: (params) => params.data.cst == "02",
@@ -251,10 +207,10 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
         cellClass: 'text-center',
-        cellEditor: 'agSelectCellEditor', // transforma em SELECT
+        cellEditor: 'agTextCellEditor', 
         hide: this.tipoImposto == TipoImposto.Estadual,
         editable: true
-      },
+      }, 
       {
         headerName: 'Cst IPI',
         field: 'cstipi', //federal
@@ -262,10 +218,18 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
         maxWidth: 150,
         minWidth: 10,
         headerClass: 'ag-theme-custom-text-center',
-        cellClass: ['text-center', 'bg-light'],
+      
         cellEditor: 'agSelectCellEditor', // transforma em SELECT
+        cellEditorParams: {
+          values: this.arrayCstIPI,
+        },
+        valueGetter: function (params) {
+          return params.data.cstipi;
+        },
         hide: this.tipoImposto == TipoImposto.Estadual || this.industria == false,
-        //editable: true
+        editable: this.industria == true,
+        
+        
       },
       {
         headerName: 'Aliq IPI',
