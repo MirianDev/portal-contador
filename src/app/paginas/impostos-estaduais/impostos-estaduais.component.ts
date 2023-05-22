@@ -462,20 +462,7 @@ export class ImpostosEstaduaisComponent implements OnInit, AfterViewInit {
 
     this.carregarColunas();
   }
-  ////////
-  valor(mappings: Record<string, string>, key: string) {
-    return mappings[key];
-  }
-  lookupKey(mappings: Record<string, string>, name: string) {
-    const keys = Object.keys(mappings);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      if (mappings[key] === name) {
-        return key;
-      }
-    }
-  }
-  ///////
+  
   // futuramente vai te que criar um metodo para validar os CFOP
   // Caso o regime tributario for igual 1  ele traz o 3 digitos referente ao simples nacional
   private maxLengthCSTIcms = () => (this.regimeTributario == RegimeTributario.SimplesNacional ? 3 : 2);
